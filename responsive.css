@@ -1,0 +1,112 @@
+/* ============================================================
+   RESPONSIVE · Media queries centralizadas
+   Breakpoints alineados con tokens.css
+   ============================================================ */
+
+/* ============================================================
+   MOBILE FIRST: base styles ya son mobile
+   Aquí solo ajustamos arriba de cada breakpoint
+   ============================================================ */
+
+/* ---------- Tablet pequeña (≥ 600px) ---------- */
+@media (min-width: 600px) {
+
+  .wrap {
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .modal {
+    padding: var(--space-8);
+  }
+
+  .modal__actions {
+    flex-direction: row;
+  }
+
+  .card__big {
+    font-size: 56px;
+  }
+
+  .tab {
+    padding: var(--space-3) var(--space-5);
+  }
+}
+
+/* ---------- Tablet (≥ 768px) ---------- */
+@media (min-width: 768px) {
+
+  .grid--summary {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grid--cards {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+/* ---------- Desktop (≥ 1024px) ---------- */
+@media (min-width: 1024px) {
+
+  .site-header__title {
+    font-size: 72px;
+  }
+}
+
+/* ============================================================
+   AJUSTES MÓVIL EXTREMO (< 380px, iPhone SE y similares)
+   ============================================================ */
+@media (max-width: 380px) {
+
+  .wrap {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .card {
+    padding: var(--space-4);
+  }
+
+  .card__big {
+    font-size: 36px;
+  }
+
+  .tab {
+    padding: var(--space-2) var(--space-3);
+    font-size: 10px;
+  }
+
+  .modal__card {
+    padding: var(--space-4);
+  }
+
+  .modal__title {
+    font-size: var(--text-2xl);
+  }
+
+  .sync-status {
+    font-size: 9px;
+    padding: var(--space-1) var(--space-2);
+  }
+}
+
+/* ============================================================
+   PRINT (por si imprimen el dossier)
+   ============================================================ */
+@media print {
+
+  body::before { display: none; }
+
+  .tabs,
+  .sync-status,
+  .toast,
+  .modal,
+  .btn,
+  .site-footer { display: none !important; }
+
+  .panel { display: block !important; }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+}
