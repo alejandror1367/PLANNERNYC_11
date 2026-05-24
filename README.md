@@ -32,9 +32,9 @@ travel-planner-v2/
 ## Estado actual
 
 - ✅ **Fase 0** — Base, tokens, reset, grain, header
-- ✅ **Fase 1** — Diseño y navegación (tabs, modal, sync status, JS modular)
-- ⏳ **Fase 2** — Backend nuevo
-- ⏳ **Fase 3** — Capa de datos + vistas de lectura
+- ✅ **Fase 1** — Diseño y navegación (tabs, sync status, JS modular)
+- ✅ **Fase 2** — Backend nuevo (Apps Script modular + Sheet schema)
+- ✅ **Fase 3** — Capa de datos + vistas de lectura (Overview, Itinerario, Notas)
 - ⏳ **Fase 4** — Vista Budget
 - ⏳ **Fase 5** — Transport + Apps + Emergency
 - ⏳ **Fase 6** — Robustez (offline, retry, a11y)

@@ -1,0 +1,207 @@
+/* ============================================================
+   LAYOUT · Header, tabs, paneles, grid system
+   Construye sobre tokens.css y base.css
+   ============================================================ */
+
+/* ---------- HEADER del sitio ---------- */
+.site-header {
+  border-bottom: var(--header-border) solid var(--text);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+
+.site-header__kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--text-accent);
+  margin-bottom: var(--space-2);
+}
+
+.site-header__title {
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
+  line-height: 0.92;
+  letter-spacing: var(--tracking-tight);
+}
+
+.site-header__amp {
+  color: var(--text-accent);
+  font-style: italic;
+  font-family: var(--font-body);
+  font-weight: var(--weight-normal);
+}
+
+.site-header__sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.site-header__actions {
+  margin-top: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---------- TABS de navegación ---------- */
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  margin-bottom: var(--space-5);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tabs {
+  scrollbar-width: none;
+}
+
+.tab {
+  padding: var(--space-3) var(--space-4);
+  min-height: var(--touch-min);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  border-bottom: var(--border-width-thick) solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--transition-base), border-color var(--transition-base);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tab:hover {
+  color: var(--text);
+}
+
+.tab[aria-selected="true"],
+.tab.is-active {
+  color: var(--text);
+  border-bottom-color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+}
+
+.tab__icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ---------- PANELES (contenido de cada tab) ---------- */
+.panels {
+  position: relative;
+}
+
+.panel {
+  display: none;
+  animation: panelFade 0.3s ease;
+}
+
+.panel.is-active {
+  display: block;
+}
+
+@keyframes panelFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- DIVIDER decorativo ---------- */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--space-5) 0;
+  position: relative;
+}
+
+.divider::before {
+  content: '◆';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 var(--space-3);
+  color: var(--text-accent);
+  font-size: 10px;
+}
+
+/* ---------- GRID SYSTEM ---------- */
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.grid--summary {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.grid--cards {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.grid--two {
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+  margin-top: var(--space-12);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- EMPTY STATE ---------- */
+.empty {
+  text-align: center;
+  padding: var(--space-8) var(--space-5);
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: var(--text-sm);
+}
+
+/* ---------- LOADING SKELETON ---------- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-line) 0%,
+    var(--color-paper) 50%,
+    var(--color-line) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite;
+  border-radius: var(--radius-xs);
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
