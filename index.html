@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f4ede1">
+  <meta name="color-scheme" content="light">
+
+  <title>NYC + BOS · Alejo & Ana · Oct 2026</title>
+  <meta name="description" content="Travel dossier — NYC + Boston · Octubre 2026 · Alejo & Ana">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NYC + BOS · Alejo & Ana">
+  <meta property="og:description" content="Travel dossier · Oct 3–15, 2026">
+  <meta property="og:type" content="website">
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Hojas de estilo (orden importa: tokens → base → resto en fases siguientes) -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+
+  <!-- Estilos del header (temporales en Fase 0 · se moverán a layout.css en Fase 1) -->
+  <style>
+    .site-header {
+      border-bottom: var(--header-border) solid var(--text);
+      padding-bottom: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+
+    .site-header__kicker {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: var(--tracking-widest);
+      text-transform: uppercase;
+      color: var(--text-accent);
+      margin-bottom: var(--space-2);
+    }
+
+    .site-header__title {
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      line-height: 0.92;
+      letter-spacing: var(--tracking-tight);
+    }
+
+    .site-header__amp {
+      color: var(--text-accent);
+      font-style: italic;
+      font-family: var(--font-body);
+      font-weight: var(--weight-normal);
+    }
+
+    .site-header__sub {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .phase-banner {
+      background: var(--color-accent-2);
+      border: 1px solid var(--text);
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      margin-bottom: var(--space-5);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .phase-banner b {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      letter-spacing: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap">
+
+    <header class="site-header" role="banner">
+      <p class="site-header__kicker">★ Travel Dossier · Oct 3–15, 2026 ★</p>
+      <h1 class="site-header__title">
+        NYC <span class="site-header__amp">&amp;</span> BOSTON
+      </h1>
+      <div class="site-header__sub">
+        <span>ALEJO × ANA · TWO BEST FRIENDS · LGBT-FRIENDLY</span>
+        <span>v2.0 · BUILDING</span>
+      </div>
+    </header>
+
+    <main role="main">
+      <div class="phase-banner">
+        <b>FASE 0 ✓</b> · Base del proyecto montada · Tokens, reset, grain, fuentes, header listos.
+        Continúa la <b>Fase 1</b> con tabs, navegación y modal de setup.
+      </div>
+    </main>
+
+    <footer role="contentinfo" style="margin-top: var(--space-12); padding-top: var(--space-4); border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); text-align: center;">
+      <p>Travel Planner v2 · Alejo × Ana · Oct 2026</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
