@@ -1,42 +1,65 @@
 // ============================================================
-// VIEW · ITINERARY (Itinerario)
+// VIEW · ITINERARY
 // ============================================================
-// Vista de lectura conectada al store.
-// Renderiza los días + actividades obtenidos del backend.
-// Cada día es colapsable (click en el header expande/colapsa).
+// Vista de lectura + CRUD de actividades.
+// Cada día es colapsable. Dentro de cada día:
+//   - Lista de actividades con botones ✏️ Editar / 🗑️ Eliminar
+//   - Botón "+ Agregar actividad" al final
+// La edición usa el componente activityModal.
 // ============================================================
 
-import { $, $$, on, escapeHtml, setHTML, delegate } from '../dom.js';
+import { $, on, escapeHtml, setHTML, delegate } from '../dom.js';
 import * as store from '../store.js';
+import * as toast from '../toast.js';
+import * as activityModal from '../components/activityModal.js';
 
 let panelEl = null;
 let mounted = false;
 let unsubscribe = null;
+
+// Mantener qué días están abiertos durante re-renders
+const openDays = new Set();
 
 /**
  * Genera el HTML de una actividad.
  */
 function renderActivity(act) {
   const tags = (act.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join('');
+  const pending = act._pending ? ' is-pending' : '';
   return `
-    <div class="activity">
-      <p class="activity__time">${escapeHtml(act.time || '')}</p>
-      <h4 class="activity__name">${escapeHtml(act.name || '')}</h4>
-      <p class="activity__desc">${escapeHtml(act.desc || '')}</p>
-      ${tags ? `<div class="activity__meta">${tags}</div>` : ''}
+    <div class="activity${pending}" data-activity-id="${escapeHtml(act.id || '')}">
+      <div class="activity__row">
+        <div class="activity__main">
+          ${act.time ? `<p class="activity__time">${escapeHtml(act.time)}</p>` : ''}
+          <h4 class="activity__name">${escapeHtml(act.name || '')}</h4>
+          ${act.desc ? `<p class="activity__desc">${escapeHtml(act.desc)}</p>` : ''}
+          ${tags ? `<div class="activity__meta">${tags}</div>` : ''}
+        </div>
+        <div class="activity__actions">
+          <button type="button" class="activity-btn activity-btn--edit"
+                  data-action="edit-activity"
+                  data-activity-id="${escapeHtml(act.id || '')}"
+                  aria-label="Editar actividad" title="Editar">✏️</button>
+          <button type="button" class="activity-btn activity-btn--delete"
+                  data-action="delete-activity"
+                  data-activity-id="${escapeHtml(act.id || '')}"
+                  aria-label="Eliminar actividad" title="Eliminar">🗑️</button>
+        </div>
+      </div>
     </div>
   `;
 }
 
 /**
- * Genera el HTML de un día.
+ * Genera el HTML de un día completo.
  */
 function renderDay(day) {
   const num = String(day.day).padStart(2, '0');
+  const isOpen = openDays.has(day.day);
   const activities = (day.activities || []).map(renderActivity).join('');
   return `
-    <article class="day-card" data-day="${escapeHtml(String(day.day))}">
-      <button class="day-card__head" type="button" aria-expanded="false">
+    <article class="day-card${isOpen ? ' is-open' : ''}" data-day="${escapeHtml(String(day.day))}">
+      <button class="day-card__head" type="button" aria-expanded="${isOpen}">
         <span class="day-card__num">${escapeHtml(num)}</span>
         <span class="day-card__info">
           <span class="day-card__date">${escapeHtml(day.date || '')} · ${escapeHtml(day.city || '')}</span>
@@ -51,14 +74,22 @@ function renderDay(day) {
             ${day.energy ? `· ENERGÍA: ${escapeHtml(day.energy)}` : ''}
           </div>
         ` : ''}
-        ${activities || '<p class="empty">Sin actividades cargadas.</p>'}
+        ${activities || '<p class="empty" style="padding: var(--space-4);">Sin actividades. Agrega la primera abajo ↓</p>'}
+        <div class="day-card__footer">
+          <button type="button"
+                  class="btn btn--outline btn--full add-activity-btn"
+                  data-action="add-activity"
+                  data-day="${escapeHtml(String(day.day))}">
+            ➕ Agregar actividad
+          </button>
+        </div>
       </div>
     </article>
   `;
 }
 
 /**
- * Render principal: itinerario completo.
+ * Render principal.
  */
 function render(state) {
   if (!panelEl) return;
@@ -96,28 +127,101 @@ function render(state) {
 
   const html = state.itinerary.map(renderDay).join('');
   setHTML(panelEl, html);
-
-  // Re-aplicar estado abierto si vuelves a renderizar
-  // (por ahora todos cerrados al re-renderizar)
 }
 
 /**
- * Toggle de un día colapsable.
+ * Handlers de acciones (vía delegación de eventos).
  */
 function setupDelegation() {
   if (!panelEl) return;
 
+  // Toggle día (click en el header)
   delegate(panelEl, 'click', '.day-card__head', function(e, head) {
     const card = head.closest('.day-card');
     if (!card) return;
+    const dayNum = Number(card.dataset.day);
     const isOpen = card.classList.toggle('is-open');
     head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (isOpen) openDays.add(dayNum);
+    else openDays.delete(dayNum);
+  });
+
+  // Agregar actividad
+  delegate(panelEl, 'click', '[data-action="add-activity"]', function(e, btn) {
+    e.stopPropagation();
+    const day = Number(btn.dataset.day);
+    activityModal.open({
+      mode: 'create',
+      day: day,
+      onSave: async (data) => {
+        try {
+          await store.addActivity(data);
+          toast.success('Actividad agregada ✓');
+        } catch (err) {
+          toast.error('No se pudo agregar: ' + (err.message || ''));
+          throw err;
+        }
+      }
+    });
+  });
+
+  // Editar actividad
+  delegate(panelEl, 'click', '[data-action="edit-activity"]', function(e, btn) {
+    e.stopPropagation();
+    const id = btn.dataset.activityId;
+    if (!id) return;
+
+    // Encontrar la actividad y su día
+    const state = store.getState();
+    let activity = null;
+    let dayNum = null;
+    for (const d of state.itinerary) {
+      const found = (d.activities || []).find((a) => a.id === id);
+      if (found) {
+        activity = found;
+        dayNum = d.day;
+        break;
+      }
+    }
+    if (!activity) {
+      toast.error('Actividad no encontrada (refresca la página)');
+      return;
+    }
+
+    activityModal.open({
+      mode: 'edit',
+      day: dayNum,
+      activity: activity,
+      onSave: async (data) => {
+        try {
+          await store.updateActivity({ ...data, day: dayNum });
+          toast.success('Actividad actualizada ✓');
+        } catch (err) {
+          toast.error('No se pudo actualizar: ' + (err.message || ''));
+          throw err;
+        }
+      }
+    });
+  });
+
+  // Eliminar actividad
+  delegate(panelEl, 'click', '[data-action="delete-activity"]', async function(e, btn) {
+    e.stopPropagation();
+    const id = btn.dataset.activityId;
+    if (!id) return;
+
+    const ok = confirm('¿Eliminar esta actividad?\n\nSe borrará del Sheet para ambos. No se puede deshacer.');
+    if (!ok) return;
+
+    try {
+      await store.deleteActivity(id);
+      toast.success('Actividad eliminada');
+    } catch (err) {
+      toast.error('No se pudo eliminar: ' + (err.message || ''));
+    }
   });
 }
 
-/**
- * Monta la vista.
- */
 export function mount() {
   if (mounted) return;
   panelEl = $('#itinerary');
@@ -125,12 +229,10 @@ export function mount() {
 
   mounted = true;
   setupDelegation();
+  activityModal.init();
   unsubscribe = store.subscribe(render);
 }
 
-/**
- * Desmonta (cleanup).
- */
 export function unmount() {
   if (unsubscribe) {
     unsubscribe();

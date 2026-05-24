@@ -136,3 +136,106 @@
   margin-top: var(--space-2);
   flex-wrap: wrap;
 }
+
+/* ============================================================
+   ACTIVITY: layout con botones de acción
+   ============================================================ */
+.activity__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.activity__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-shrink: 0;
+}
+
+.activity-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.activity-btn:hover {
+  background: var(--surface-paper);
+  border-color: var(--text);
+}
+
+.activity-btn:active {
+  transform: translate(1px, 1px);
+}
+
+.activity-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.activity-btn--delete:hover {
+  background: #ffe5e0;
+  border-color: var(--danger);
+}
+
+/* Estado pendiente (optimistic UI) */
+.activity.is-pending {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.activity.is-pending::after {
+  content: 'guardando...';
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-accent);
+  margin-left: var(--space-2);
+}
+
+/* Footer del día con botón agregar */
+.day-card__footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--border);
+}
+
+.add-activity-btn {
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-wide);
+}
+
+/* ============================================================
+   ACTIVITY MODAL: formulario
+   ============================================================ */
+.activity-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.activity-form .field {
+  width: 100%;
+}
+
+/* En móvil, los botones del modal apilados */
+@media (max-width: 600px) {
+  .activity__actions {
+    flex-direction: row;
+  }
+}

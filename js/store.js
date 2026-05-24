@@ -268,3 +268,175 @@ export async function resetAll() {
   await api.resetAll();
   await loadAll();
 }
+
+// ============================================================
+// ACTIVIDADES DEL ITINERARIO (CRUD)
+// ============================================================
+
+/**
+ * Helper interno: actualiza el itinerario en el state aplicando una mutación.
+ * @param {Function} mutate - (itinerary) => newItinerary
+ */
+function mutateItinerary(mutate) {
+  setState((s) => ({ itinerary: mutate(s.itinerary) }));
+}
+
+/**
+ * Encuentra el día por su número.
+ */
+function findDay(itinerary, dayNum) {
+  return itinerary.find((d) => Number(d.day) === Number(dayNum));
+}
+
+/**
+ * Agrega una actividad nueva. Optimistic.
+ * @param {Object} data - { day, time, name, desc, tags }
+ */
+export async function addActivity(data) {
+  const tempId = 'temp_act_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+  const optimistic = {
+    id: tempId,
+    time: data.time || '',
+    name: data.name,
+    desc: data.desc || '',
+    tags: Array.isArray(data.tags) ? data.tags : [],
+    _pending: true,
+  };
+
+  // Optimistic: agregar al final del día
+  mutateItinerary((itinerary) =>
+    itinerary.map((d) => {
+      if (Number(d.day) !== Number(data.day)) return d;
+      return { ...d, activities: [...(d.activities || []), optimistic] };
+    })
+  );
+
+  try {
+    const result = await api.addActivity(data);
+    const created = result.activity;
+
+    // Reemplazar el optimista por el real
+    mutateItinerary((itinerary) =>
+      itinerary.map((d) => {
+        if (Number(d.day) !== Number(data.day)) return d;
+        return {
+          ...d,
+          activities: d.activities.map((a) =>
+            a.id === tempId ? { ...created, _pending: false } : a
+          ),
+        };
+      })
+    );
+    persistCache();
+    return created;
+  } catch (err) {
+    // Revertir
+    mutateItinerary((itinerary) =>
+      itinerary.map((d) => {
+        if (Number(d.day) !== Number(data.day)) return d;
+        return { ...d, activities: d.activities.filter((a) => a.id !== tempId) };
+      })
+    );
+    throw err;
+  }
+}
+
+/**
+ * Actualiza una actividad. Optimistic.
+ * @param {Object} data - { id, day, time, name, desc, tags }
+ */
+export async function updateActivity(data) {
+  if (!data || !data.id) throw new Error('ID requerido');
+
+  // Snapshot del estado anterior para revertir
+  let previous = null;
+  mutateItinerary((itinerary) =>
+    itinerary.map((d) => ({
+      ...d,
+      activities: (d.activities || []).map((a) => {
+        if (a.id === data.id) {
+          previous = { ...a };
+          return {
+            ...a,
+            time: data.time ?? a.time,
+            name: data.name ?? a.name,
+            desc: data.desc ?? a.desc,
+            tags: data.tags ?? a.tags,
+            _pending: true,
+          };
+        }
+        return a;
+      }),
+    }))
+  );
+
+  try {
+    const result = await api.updateActivity(data);
+    const updated = result.activity;
+
+    mutateItinerary((itinerary) =>
+      itinerary.map((d) => ({
+        ...d,
+        activities: (d.activities || []).map((a) =>
+          a.id === data.id ? { ...updated, _pending: false } : a
+        ),
+      }))
+    );
+    persistCache();
+    return updated;
+  } catch (err) {
+    // Revertir
+    if (previous) {
+      mutateItinerary((itinerary) =>
+        itinerary.map((d) => ({
+          ...d,
+          activities: (d.activities || []).map((a) =>
+            a.id === data.id ? previous : a
+          ),
+        }))
+      );
+    }
+    throw err;
+  }
+}
+
+/**
+ * Elimina una actividad. Optimistic.
+ */
+export async function deleteActivity(id) {
+  if (!id) throw new Error('ID requerido');
+
+  // Snapshot
+  let removed = null;
+  let removedDay = null;
+  let removedIdx = -1;
+
+  mutateItinerary((itinerary) =>
+    itinerary.map((d) => {
+      const idx = (d.activities || []).findIndex((a) => a.id === id);
+      if (idx === -1) return d;
+      removed = d.activities[idx];
+      removedDay = d.day;
+      removedIdx = idx;
+      return { ...d, activities: d.activities.filter((a) => a.id !== id) };
+    })
+  );
+
+  try {
+    await api.deleteActivity(id);
+    persistCache();
+  } catch (err) {
+    // Revertir
+    if (removed && removedDay !== null) {
+      mutateItinerary((itinerary) =>
+        itinerary.map((d) => {
+          if (Number(d.day) !== Number(removedDay)) return d;
+          const acts = [...d.activities];
+          acts.splice(removedIdx, 0, removed);
+          return { ...d, activities: acts };
+        })
+      );
+    }
+    throw err;
+  }
+}
