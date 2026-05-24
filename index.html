@@ -19,76 +19,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- Hojas de estilo (orden importa: tokens → base → resto en fases siguientes) -->
+  <!-- Hojas de estilo (orden: tokens → base → layout → components → responsive) -->
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/base.css">
-
-  <!-- Estilos del header (temporales en Fase 0 · se moverán a layout.css en Fase 1) -->
-  <style>
-    .site-header {
-      border-bottom: var(--header-border) solid var(--text);
-      padding-bottom: var(--space-3);
-      margin-bottom: var(--space-5);
-    }
-
-    .site-header__kicker {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      letter-spacing: var(--tracking-widest);
-      text-transform: uppercase;
-      color: var(--text-accent);
-      margin-bottom: var(--space-2);
-    }
-
-    .site-header__title {
-      font-family: var(--font-display);
-      font-size: var(--text-hero);
-      line-height: 0.92;
-      letter-spacing: var(--tracking-tight);
-    }
-
-    .site-header__amp {
-      color: var(--text-accent);
-      font-style: italic;
-      font-family: var(--font-body);
-      font-weight: var(--weight-normal);
-    }
-
-    .site-header__sub {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-top: var(--space-2);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--text-muted);
-      flex-wrap: wrap;
-      gap: var(--space-2);
-    }
-
-    .phase-banner {
-      background: var(--color-accent-2);
-      border: 1px solid var(--text);
-      padding: var(--space-3) var(--space-4);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      letter-spacing: var(--tracking-wide);
-      text-transform: uppercase;
-      margin-bottom: var(--space-5);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .phase-banner b {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      letter-spacing: 0;
-    }
-  </style>
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
+  <!-- ===================== SYNC STATUS ===================== -->
+  <div class="sync-status sync-status--idle" id="sync-status" role="status" aria-live="polite">
+    <span class="sync-status__dot"></span>
+    <span id="sync-status-text">Sin conectar</span>
+  </div>
+
+  <!-- ===================== APP WRAPPER ===================== -->
   <div class="wrap">
 
+    <!-- ===================== HEADER ===================== -->
     <header class="site-header" role="banner">
       <p class="site-header__kicker">★ Travel Dossier · Oct 3–15, 2026 ★</p>
       <h1 class="site-header__title">
@@ -96,22 +45,129 @@
       </h1>
       <div class="site-header__sub">
         <span>ALEJO × ANA · TWO BEST FRIENDS · LGBT-FRIENDLY</span>
-        <span>v2.0 · BUILDING</span>
+        <span id="trip-counter">— LOADING —</span>
+      </div>
+      <div class="site-header__actions">
+        <button class="btn--ghost btn" id="refresh-btn" type="button">⟳ Refrescar</button>
+        <button class="btn--ghost btn" id="open-sheet-btn" type="button">📊 Abrir Sheet</button>
+        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);" id="app-version">v2.0 · BUILDING</span>
       </div>
     </header>
 
-    <main role="main">
-      <div class="phase-banner">
-        <b>FASE 0 ✓</b> · Base del proyecto montada · Tokens, reset, grain, fuentes, header listos.
-        Continúa la <b>Fase 1</b> con tabs, navegación y modal de setup.
-      </div>
+    <!-- ===================== TABS ===================== -->
+    <nav class="tabs" role="tablist" aria-label="Secciones del dossier">
+      <button class="tab is-active" role="tab" data-tab="overview"  aria-selected="true"  aria-controls="overview"  type="button">
+        <span class="tab__icon" aria-hidden="true">📌</span> Resumen
+      </button>
+      <button class="tab" role="tab" data-tab="itinerary" aria-selected="false" aria-controls="itinerary" type="button">
+        <span class="tab__icon" aria-hidden="true">📅</span> Itinerario
+      </button>
+      <button class="tab" role="tab" data-tab="budget"    aria-selected="false" aria-controls="budget"    type="button">
+        <span class="tab__icon" aria-hidden="true">💸</span> Presupuesto
+      </button>
+      <button class="tab" role="tab" data-tab="transport" aria-selected="false" aria-controls="transport" type="button">
+        <span class="tab__icon" aria-hidden="true">🚇</span> Transporte
+      </button>
+      <button class="tab" role="tab" data-tab="apps"      aria-selected="false" aria-controls="apps"      type="button">
+        <span class="tab__icon" aria-hidden="true">📱</span> Apps
+      </button>
+      <button class="tab" role="tab" data-tab="notes"     aria-selected="false" aria-controls="notes"     type="button">
+        <span class="tab__icon" aria-hidden="true">📝</span> Notas
+      </button>
+    </nav>
+
+    <!-- ===================== PANELS ===================== -->
+    <main class="panels" role="main">
+
+      <!-- OVERVIEW -->
+      <section class="panel is-active" id="overview" role="tabpanel" aria-labelledby="tab-overview">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Resumen</h2>
+          <p>Esta pestaña mostrará el resumen del viaje, días totales, clima esperado, vibe del viaje y cómo usar la herramienta. Contenido pendiente para <b>Fase 3</b>.</p>
+        </div>
+      </section>
+
+      <!-- ITINERARY -->
+      <section class="panel" id="itinerary" role="tabpanel" aria-labelledby="tab-itinerary">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Itinerario</h2>
+          <p>Aquí van los 11 días del viaje, con horarios, actividades, costos y opciones según energía. Cargado dinámicamente desde el Google Sheet. Pendiente <b>Fase 3</b>.</p>
+        </div>
+      </section>
+
+      <!-- BUDGET -->
+      <section class="panel" id="budget" role="tabpanel" aria-labelledby="tab-budget">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Presupuesto</h2>
+          <p>Registro de gastos compartidos y personales, totales en USD y COP, gasto real individual, saldos pendientes y settlement automático. Pendiente <b>Fase 4</b>.</p>
+        </div>
+      </section>
+
+      <!-- TRANSPORT -->
+      <section class="panel" id="transport" role="tabpanel" aria-labelledby="tab-transport">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Transporte</h2>
+          <p>Tablas comparativas de transporte: JFK→Hotel, moverse en NYC, NYC→Boston en Amtrak, Boston→Logan. Pendiente <b>Fase 5</b>.</p>
+        </div>
+      </section>
+
+      <!-- APPS -->
+      <section class="panel" id="apps" role="tabpanel" aria-labelledby="tab-apps">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Apps</h2>
+          <p>Lista de apps esenciales para descargar antes del viaje (Citymapper, OpenTable, Too Good To Go, etc.). Pendiente <b>Fase 5</b>.</p>
+        </div>
+      </section>
+
+      <!-- NOTES -->
+      <section class="panel" id="notes" role="tabpanel" aria-labelledby="tab-notes">
+        <div class="card">
+          <p class="card__label">Pestaña</p>
+          <h2 class="card__title">Notas</h2>
+          <p>Espacio libre para links, recomendaciones, wishlist de photodump, y contactos de emergencia. Pendiente <b>Fase 3</b>.</p>
+        </div>
+      </section>
+
     </main>
 
-    <footer role="contentinfo" style="margin-top: var(--space-12); padding-top: var(--space-4); border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: var(--text-xs); color: var(--text-muted); text-align: center;">
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer" role="contentinfo">
       <p>Travel Planner v2 · Alejo × Ana · Oct 2026</p>
     </footer>
 
   </div>
+
+  <!-- ===================== SETUP MODAL ===================== -->
+  <div class="modal" id="setup-modal" role="dialog" aria-modal="true" aria-labelledby="setup-title" hidden>
+    <div class="modal__card">
+      <p class="modal__kicker">★ Primera vez ★</p>
+      <h2 class="modal__title" id="setup-title">Conectar al Sheet</h2>
+      <div class="modal__body">
+        <p>Pega aquí la URL del Apps Script (la que termina en <span class="modal__code">/exec</span>):</p>
+        <input
+          type="url"
+          id="setup-url-input"
+          class="input"
+          placeholder="https://script.google.com/macros/s/.../exec"
+          autocomplete="off"
+          spellcheck="false"
+          style="margin-top: var(--space-3);"
+        >
+        <p class="modal__hint">Esta URL conecta tu dispositivo al Google Sheet compartido. Solo se pide una vez por dispositivo.</p>
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--full" id="setup-save-btn" type="button">Conectar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SCRIPT ENTRY POINT ===================== -->
+  <script type="module" src="js/app.js"></script>
 
 </body>
 </html>

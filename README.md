@@ -1,6 +1,6 @@
 # Travel Planner v2 — NYC + Boston
 
-> Ale × Ana · Octubre 2026 · LGBT-friendly travel dossier
+> Alejo × Ana · Octubre 2026 · LGBT-friendly travel dossier
 
 App web personalizada para planificar y gestionar nuestro viaje a Nueva York y Boston. Sincronizada en tiempo real entre los dos vía Google Sheets, sin servidores propios ni costos recurrentes.
 
@@ -32,7 +32,7 @@ travel-planner-v2/
 ## Estado actual
 
 - ✅ **Fase 0** — Base, tokens, reset, grain, header
-- ⏳ **Fase 1** — Diseño y navegación
+- ✅ **Fase 1** — Diseño y navegación (tabs, modal, sync status, JS modular)
 - ⏳ **Fase 2** — Backend nuevo
 - ⏳ **Fase 3** — Capa de datos + vistas de lectura
 - ⏳ **Fase 4** — Vista Budget
