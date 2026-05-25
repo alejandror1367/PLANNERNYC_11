@@ -1,0 +1,118 @@
+{
+  "categories": [
+    { "id": "essential",  "label": "★ Imprescindible" },
+    { "id": "transport",  "label": "Transporte" },
+    { "id": "savings",    "label": "Ahorro" },
+    { "id": "food",       "label": "Comida" },
+    { "id": "culture",    "label": "Cultura" },
+    { "id": "nightlife",  "label": "Vida nocturna" },
+    { "id": "lgbt",       "label": "LGBT" },
+    { "id": "payments",   "label": "Pagos" },
+    { "id": "shopping",   "label": "Compras" },
+    { "id": "coffee",     "label": "Café" },
+    { "id": "weather",    "label": "Clima" },
+    { "id": "photo",      "label": "Foto" },
+    { "id": "connect",    "label": "Conectividad" }
+  ],
+
+  "apps": [
+    {
+      "name": "Citymapper",
+      "category": "essential",
+      "desc": "La MEJOR app de transporte público para NYC y Boston. Te dice qué subway, qué salida, cuánto cuesta, alternativa caminando vs Uber. Más precisa que Google Maps en ciudades."
+    },
+    {
+      "name": "Google Maps",
+      "category": "essential",
+      "desc": "Descarguen offline NYC y Boston antes. Listas guardadas para spots favoritos. Modo street view para reconocer entradas de bares."
+    },
+    {
+      "name": "Transit App",
+      "category": "transport",
+      "desc": "Alternativa a Citymapper, muy buena para tiempo real del metro NYC y MBTA Boston."
+    },
+    {
+      "name": "Uber + Lyft",
+      "category": "transport",
+      "desc": "Tener AMBAS. A veces Lyft está $10 más barato. Comparen antes de pedir."
+    },
+    {
+      "name": "Too Good To Go",
+      "category": "savings",
+      "desc": "Comida sobrante de restaurantes/cafés a 50-70% off. Bagels, pasta, postres por $4-6. Funciona genial en NYC."
+    },
+    {
+      "name": "OpenTable",
+      "category": "savings",
+      "desc": "Reservas + puntos. Algunos restaurantes ofrecen 30% descuento en horarios específicos (\"Experiences\"). Crucial para NYC."
+    },
+    {
+      "name": "Resy",
+      "category": "food",
+      "desc": "Para restaurantes más cool/hipster que no están en OpenTable. Muchos lugares LGBT-friendly y bares trendy de NYC usan Resy."
+    },
+    {
+      "name": "TodayTix",
+      "category": "culture",
+      "desc": "Tickets de Broadway con descuento y \"rush tickets\" (lotería para shows del mismo día desde $25). Mucho más fácil que ir a TKTS Times Square."
+    },
+    {
+      "name": "The Infatuation",
+      "category": "food",
+      "desc": "Reviews de comida MUY confiables en NYC y Boston. Listas tipo \"best brunch in West Village\" curadas por foodies."
+    },
+    {
+      "name": "GayCities",
+      "category": "lgbt",
+      "desc": "Guía de bares, eventos y drag shows LGBT en NYC y Boston actualizada. También sirve Time Out para listings de drag."
+    },
+    {
+      "name": "Grindr / HER / Scruff",
+      "category": "lgbt",
+      "desc": "Para conectar con locales LGBT. Modo \"Explore\" funciona en ambas ciudades. Muchos eventos pop-up se enteran ahí."
+    },
+    {
+      "name": "Splitwise",
+      "category": "payments",
+      "desc": "Alternativa a esta herramienta si quieren algo solo para gastos. Súper visual, calcula saldos automáticamente."
+    },
+    {
+      "name": "Venmo / Zelle",
+      "category": "payments",
+      "desc": "Si conocen a alguien en USA, lo más fácil para que les transfiera/transfieran. Entre ustedes 2, mejor un acumulado al final."
+    },
+    {
+      "name": "Beyond Retro / Depop",
+      "category": "shopping",
+      "desc": "Para encontrar thrift shops y vintage curado. Mapa de tiendas en NYC. Brooklyn (Williamsburg, Bushwick) es la meca."
+    },
+    {
+      "name": "Beanhunter",
+      "category": "coffee",
+      "desc": "Specialty coffee shops aesthetic en ambas ciudades. Reseñas honestas, fotos del lugar."
+    },
+    {
+      "name": "AccuWeather / Weather.com",
+      "category": "weather",
+      "desc": "Más precisas que el iPhone weather por horas. Revísenla cada noche para planear el día siguiente."
+    },
+    {
+      "name": "VSCO / Dispo",
+      "category": "photo",
+      "desc": "Para que el photodump quede aesthetic. Filtros A6, AL3, M5 son los más usados ahora."
+    },
+    {
+      "name": "Airalo / Holafly",
+      "category": "connect",
+      "desc": "eSIM para USA. ~$20-30 por 10GB. Activan al llegar, no necesitan SIM física. Imprescindible."
+    }
+  ],
+
+  "beforeLeaving": [
+    "Avisar a sus bancos del viaje (fechas y ciudades) para que no bloqueen las tarjetas.",
+    "Llevar dos tarjetas mínimo cada uno, idealmente una Visa/MC y una Amex. Algunos lugares no aceptan Amex.",
+    "Algo de cash en USD: $100-200 para tips, food trucks, drag shows (donde tip las queens en cash es muy importante).",
+    "Activar Apple Pay / Google Pay con la tarjeta — usan OMNY así sin necesidad de tarjeta física.",
+    "Descargar eSIM Airalo antes de viajar — activan al aterrizar sin esperar."
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "sections": [
+    {
+      "id": "jfk-to-hotel",
+      "title": "🛬 JFK → Hotel (dom 4 oct ~4 AM)",
+      "variant": "dark",
+      "intro": "Llegan ~4 AM domingo. El metro funciona 24h pero a esa hora con maletas tras un vuelo largo, está bien justificable un Uber/taxi. Plan recomendado abajo:",
+      "rows": [
+        {
+          "name": "Uber/Lyft",
+          "subtitle": "door-to-door, llegando madrugada",
+          "time": "45-60 min",
+          "cost": "$80-110",
+          "verdict": "★ SÍ",
+          "recommended": true
+        },
+        {
+          "name": "Taxi amarillo",
+          "subtitle": "tarifa fija",
+          "time": "45-60 min",
+          "cost": "~$70 + tip $14",
+          "verdict": "Buena alt."
+        },
+        {
+          "name": "AirTrain + LIRR",
+          "subtitle": "cambio en Jamaica",
+          "time": "50-60 min",
+          "cost": "~$23",
+          "verdict": "Solo si ligeros"
+        },
+        {
+          "name": "AirTrain + Subway E",
+          "subtitle": "más lento, con maletas pésimo",
+          "time": "75-90 min",
+          "cost": "~$22.80",
+          "verdict": "No a las 4 AM"
+        }
+      ],
+      "tip": "💡 Recomendación: Uber XL si traen mucha maleta (~$90-100), split en 2 = $45-50 c/u. Después de un vuelo nocturno con escala desde Bogotá vía Panamá, vale la pena el confort. Pidan el Uber DESPUÉS de pasar inmigración y recoger maletas."
+    },
+
+    {
+      "id": "in-nyc",
+      "title": "🗽 Moverse en NYC (4-11 oct)",
+      "rows": [
+        {
+          "name": "🚇 Subway (OMNY)",
+          "time": "15-30 min",
+          "cost": "$2.90/viaje",
+          "verdict": "★ default",
+          "recommended": true
+        },
+        {
+          "name": "🚌 Bus",
+          "time": "20-40 min",
+          "cost": "$2.90/viaje",
+          "verdict": "Crosstown"
+        },
+        {
+          "name": "🚶 Caminar",
+          "time": "1-20 cuadras",
+          "cost": "FREE",
+          "verdict": "★ Manhattan",
+          "recommended": true
+        },
+        {
+          "name": "🚕 Uber/Lyft",
+          "time": "10-25 min",
+          "cost": "$15-30",
+          "verdict": "Noche / lluvia"
+        },
+        {
+          "name": "🚲 Citi Bike day",
+          "time": "variable",
+          "cost": "$19/día",
+          "verdict": "Hudson / parques"
+        }
+      ],
+      "tip": "💡 Hack OMNY: usen tap-to-pay con tarjeta contactless o Apple/Google Pay. Después de 12 viajes en 7 días el resto de la semana es GRATIS (fare cap automático). No compren MetroCard física a menos que su tarjeta no funcione contactless."
+    },
+
+    {
+      "id": "nyc-to-boston",
+      "title": "🚆 NYC → BOSTON (sáb 11 oct PM)",
+      "variant": "accent",
+      "rows": [
+        {
+          "name": "Amtrak Northeast Regional",
+          "subtitle": "Penn Station → South Station, downtown-to-downtown",
+          "time": "~4h 15m",
+          "cost": "$60-120 c/u",
+          "verdict": "★ MEJOR",
+          "recommended": true
+        },
+        {
+          "name": "Amtrak Acela",
+          "subtitle": "más rápido pero mucho más caro",
+          "time": "3h 36m",
+          "cost": "$150-300+",
+          "verdict": "Si sobra plata"
+        },
+        {
+          "name": "FlixBus / Greyhound",
+          "subtitle": "desde Midtown, más barato",
+          "time": "4h 20m",
+          "cost": "$17-60",
+          "verdict": "Si buscan ahorrar"
+        },
+        {
+          "name": "Vuelo (LGA/JFK→BOS)",
+          "subtitle": "con tiempo a aeropuerto + seguridad",
+          "time": "3-4h total",
+          "cost": "$80-200",
+          "verdict": "No vale la pena"
+        }
+      ],
+      "tip": "💡 Recomendación: Amtrak Northeast Regional. Penn Station queda a 5 cuadras del hotel (caminable), llegan a South Station Boston que está céntrico. Reserven con 2-3 semanas de anticipación para precios de $60-80. Si quieren ahorrar más, FlixBus es buena opción pero el tráfico hacia Boston puede atrasarlos."
+    },
+
+    {
+      "id": "in-boston",
+      "title": "🦞 Moverse en Boston (11-14 oct)",
+      "rows": [
+        {
+          "name": "🚇 The T (subway)",
+          "subtitle": "con Charlie Card",
+          "time": "10-25 min",
+          "cost": "$2.40/viaje",
+          "verdict": "★ default",
+          "recommended": true
+        },
+        {
+          "name": "🚶 Caminar",
+          "time": "variable",
+          "cost": "FREE",
+          "verdict": "★ Boston es chiquito",
+          "recommended": true
+        },
+        {
+          "name": "🚕 Uber/Lyft",
+          "time": "8-20 min",
+          "cost": "$10-25",
+          "verdict": "Noche / lluvia"
+        },
+        {
+          "name": "🚲 Bluebikes day",
+          "time": "variable",
+          "cost": "$10/día",
+          "verdict": "Esplanade / Harvard"
+        }
+      ]
+    },
+
+    {
+      "id": "bos-to-logan",
+      "title": "✈️ Airbnb → BOS Logan (mié 14 oct PM)",
+      "variant": "dark",
+      "intro": "Vuelo sale 7:05 PM. Lleguen al aeropuerto a las 5:00 PM (2h antes para Basic Economy con maletas que facturar).",
+      "rows": [
+        {
+          "name": "Silver Line SL1 (bus T)",
+          "subtitle": "desde South Station, GRATIS al aeropuerto",
+          "time": "20-30 min",
+          "cost": "FREE ★",
+          "verdict": "★ SÍ",
+          "recommended": true
+        },
+        {
+          "name": "Uber/Lyft",
+          "subtitle": "door-to-door con maletas",
+          "time": "15-25 min",
+          "cost": "$25-45",
+          "verdict": "Backup"
+        },
+        {
+          "name": "The T Blue Line",
+          "subtitle": "+ shuttle gratis Massport",
+          "time": "25-40 min",
+          "cost": "$4.80",
+          "verdict": "OK"
+        }
+      ],
+      "tip": "💡 La Silver Line SL1 hacia Logan Airport es GRATIS en dirección al aeropuerto desde South Station. Es el hack más conocido de Boston."
+    }
+  ]
+}

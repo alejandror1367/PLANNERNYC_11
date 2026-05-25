@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "title": "🚨 Emergencias generales",
+      "items": [
+        { "label": "911",                       "value": "Emergencias en USA (policía/bomberos/ambulancia)" },
+        { "label": "311",                       "value": "Info no urgente NYC" },
+        { "label": "Trevor Project Lifeline",   "value": "1-866-488-7386 — apoyo LGBT 24/7" }
+      ]
+    },
+    {
+      "title": "🇨🇴 Consulares Colombia",
+      "items": [
+        { "label": "Embajada Colombia NYC",     "value": "10 East 46th St (a 6 cuadras del hotel) · +1 212 798 9000" },
+        { "label": "Consulado Boston",          "value": "31 Saint James Ave, Suite 905 · +1 617 536 6222" }
+      ]
+    },
+    {
+      "title": "🏨 Hospedaje",
+      "items": [
+        { "label": "Wyndham Midtown 45",        "value": "205 W 45th St, NYC · ver confirmación de reserva para teléfono" }
+      ]
+    },
+    {
+      "title": "✈️ Aerolíneas",
+      "items": [
+        { "label": "Copa Airlines USA",         "value": "1-800-359-2672" },
+        { "label": "American Airlines",         "value": "1-800-433-7300" }
+      ]
+    }
+  ]
+}
