@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f4ede1">
+  <meta name="color-scheme" content="light">
+
+  <title>NYC + BOS · Alejo & Ana · Oct 2026</title>
+  <meta name="description" content="Travel dossier — NYC + Boston · Octubre 2026 · Alejo & Ana">
+
+  <!-- ===================== PWA ===================== -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <!-- iOS Safari · instalación en pantalla de inicio -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NYC + BOS">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="NYC + BOS · Alejo & Ana">
+  <meta property="og:description" content="Travel dossier · Oct 3–15, 2026">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="icons/icon-512.png">
+
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,wght@0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Hojas de estilo (orden: tokens → base → layout → components → views → budget → responsive) -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/views.css">
+  <link rel="stylesheet" href="css/budget.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/motion.css">
+</head>
+<body>
+
+  <!-- ===================== SYNC STATUS ===================== -->
+  <div class="sync-status sync-status--idle" id="sync-status" role="status" aria-live="polite">
+    <span class="sync-status__dot"></span>
+    <span id="sync-status-text">Iniciando...</span>
+  </div>
+
+  <!-- ===================== ERROR BANNER (persistente) ===================== -->
+  <div id="error-banner" class="error-banner" role="alert" aria-live="assertive" hidden></div>
+
+  <!-- ===================== APP WRAPPER ===================== -->
+  <div class="wrap">
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="site-header" role="banner">
+      <p class="site-header__kicker">★ Travel Dossier · Oct 3–15, 2026 ★</p>
+      <h1 class="site-header__title">
+        NYC <span class="site-header__amp">&amp;</span> BOSTON
+      </h1>
+      <div class="site-header__sub">
+        <span>ALEJO × ANA · TWO BEST FRIENDS · LGBT-FRIENDLY</span>
+        <span id="trip-counter">— LOADING —</span>
+      </div>
+      <div class="site-header__actions">
+        <button class="btn--ghost btn" id="refresh-btn" type="button">⟳ Refrescar</button>
+        <button class="btn--ghost btn" id="open-sheet-btn" type="button">📊 Abrir Sheet</button>
+        <span style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);" id="app-version">v2.0 · BUILDING</span>
+      </div>
+    </header>
+
+    <!-- ===================== TABS ===================== -->
+    <nav class="tabs" role="tablist" aria-label="Secciones del dossier">
+      <button class="tab is-active" role="tab" data-tab="overview"  aria-selected="true"  aria-controls="overview"  type="button">
+        <span class="tab__icon" aria-hidden="true">📌</span> Resumen
+      </button>
+      <button class="tab" role="tab" data-tab="itinerary" aria-selected="false" aria-controls="itinerary" type="button">
+        <span class="tab__icon" aria-hidden="true">📅</span> Itinerario
+      </button>
+      <button class="tab" role="tab" data-tab="budget"    aria-selected="false" aria-controls="budget"    type="button">
+        <span class="tab__icon" aria-hidden="true">💸</span> Presupuesto
+      </button>
+      <button class="tab" role="tab" data-tab="transport" aria-selected="false" aria-controls="transport" type="button">
+        <span class="tab__icon" aria-hidden="true">🚇</span> Transporte
+      </button>
+      <button class="tab" role="tab" data-tab="apps"      aria-selected="false" aria-controls="apps"      type="button">
+        <span class="tab__icon" aria-hidden="true">📱</span> Apps
+      </button>
+      <button class="tab" role="tab" data-tab="notes"     aria-selected="false" aria-controls="notes"     type="button">
+        <span class="tab__icon" aria-hidden="true">📝</span> Notas
+      </button>
+    </nav>
+
+    <!-- ===================== PANELS ===================== -->
+    <main class="panels" role="main">
+
+      <!-- Overview: lo monta js/views/overview.js -->
+      <section class="panel is-active" id="overview" role="tabpanel"></section>
+
+      <!-- Itinerary: lo monta js/views/itinerary.js -->
+      <section class="panel" id="itinerary" role="tabpanel"></section>
+
+      <!-- Budget: lo monta js/views/budget.js -->
+      <section class="panel" id="budget" role="tabpanel"></section>
+
+      <!-- Transport: lo monta js/views/transport.js -->
+      <section class="panel" id="transport" role="tabpanel"></section>
+
+      <!-- Apps: lo monta js/views/apps.js -->
+      <section class="panel" id="apps" role="tabpanel"></section>
+
+      <!-- Notes: lo monta js/views/notes.js -->
+      <section class="panel" id="notes" role="tabpanel"></section>
+
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <p>Travel Planner v2 · Alejo × Ana · Oct 2026</p>
+    </footer>
+
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>
