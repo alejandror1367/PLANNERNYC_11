@@ -1,0 +1,155 @@
+/* ============================================================
+   MOTION · Sistema de animaciones (Fase 8.1 + 8.2)
+   ============================================================
+   Todas las animaciones viven aquí. Reglas:
+   - Duración ≤250ms para microinteracciones, ≤400ms para entradas
+   - Se desactivan completas con prefers-reduced-motion
+   - Usan transform/opacity (GPU-accelerated, 60fps)
+   ============================================================ */
+
+/* ---------- ENTRADA DE CARDS (fade-in escalonado) ---------- */
+/* Aplicar la clase .motion-in a un contenedor; sus hijos directos
+   con .motion-item entran en cascada. */
+@keyframes motionFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.motion-item {
+  animation: motionFadeUp 0.4s var(--ease-out) both;
+}
+
+/* Escalonado: cada item entra un poco después que el anterior */
+.motion-item:nth-child(1) { animation-delay: 0ms; }
+.motion-item:nth-child(2) { animation-delay: calc(var(--motion-stagger) * 1); }
+.motion-item:nth-child(3) { animation-delay: calc(var(--motion-stagger) * 2); }
+.motion-item:nth-child(4) { animation-delay: calc(var(--motion-stagger) * 3); }
+.motion-item:nth-child(5) { animation-delay: calc(var(--motion-stagger) * 4); }
+.motion-item:nth-child(6) { animation-delay: calc(var(--motion-stagger) * 5); }
+.motion-item:nth-child(7) { animation-delay: calc(var(--motion-stagger) * 6); }
+.motion-item:nth-child(n+8) { animation-delay: calc(var(--motion-stagger) * 7); }
+
+/* ---------- PULSO DE ÉXITO (al agregar) ---------- */
+@keyframes motionPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+.motion-pulse {
+  animation: motionPulse 0.35s var(--ease-spring);
+}
+
+/* Flash sutil de fondo al agregar un item nuevo */
+@keyframes motionFlash {
+  0%   { background-color: rgba(255, 216, 77, 0.35); }
+  100% { background-color: transparent; }
+}
+
+.motion-flash {
+  animation: motionFlash 1s ease-out;
+}
+
+/* ---------- SALIDA (al borrar) ---------- */
+@keyframes motionFadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 200px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.motion-out {
+  animation: motionFadeOut 0.3s var(--ease-in-out) forwards;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* ---------- NUMBER FLIP (tasa, totales) ---------- */
+@keyframes motionFlip {
+  0%   { transform: translateY(0); opacity: 1; }
+  45%  { transform: translateY(-60%); opacity: 0; }
+  55%  { transform: translateY(60%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.motion-flip {
+  display: inline-block;
+  animation: motionFlip 0.4s var(--ease-in-out);
+}
+
+/* ---------- BOTONES (press feedback) ---------- */
+/* Mejora el feedback táctil de botones primarios */
+.btn,
+.chip,
+.activity-btn {
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn:active,
+.activity-btn:active {
+  transform: scale(0.96);
+}
+
+/* ---------- TAB SWITCH (mejora del panelFade) ---------- */
+/* Ya existe panelFade en layout.css; aquí solo lo refinamos */
+.panel.is-active {
+  animation: motionPanelIn 0.35s var(--ease-out);
+}
+
+@keyframes motionPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   RESPETAR prefers-reduced-motion
+   Desactiva TODAS las animaciones de motion para usuarios que
+   prefieren menos movimiento.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .motion-item,
+  .motion-pulse,
+  .motion-flash,
+  .motion-out,
+  .motion-flip,
+  .panel.is-active {
+    animation: none !important;
+  }
+
+  .motion-item {
+    opacity: 1;
+    transform: none;
+  }
+
+  .btn:active,
+  .activity-btn:active {
+    transform: none;
+  }
+
+  /* La salida sin animación: ocultar directo */
+  .motion-out {
+    opacity: 0;
+  }
+}
