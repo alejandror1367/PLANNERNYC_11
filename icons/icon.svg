@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Travel Planner — NYC & Boston · Oct 2026
+       Estilo: dark mode editorial con sello tipo pasaporte -->
+
+  <!-- Fondo tinta -->
+  <rect width="512" height="512" rx="90" fill="#1a1815"/>
+
+  <!-- Banda diagonal naranja -->
+  <path d="M0 285 L512 0 L512 228 L0 512 Z" fill="#ff4d2e"/>
+
+  <!-- NYC -->
+  <text x="256" y="222"
+        font-family="'Bebas Neue', 'Arial Narrow', 'Helvetica Neue Condensed', sans-serif"
+        font-size="108"
+        fill="#f4ede1"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="5">NYC</text>
+
+  <!-- BOS -->
+  <text x="256" y="398"
+        font-family="'Bebas Neue', 'Arial Narrow', 'Helvetica Neue Condensed', sans-serif"
+        font-size="108"
+        fill="#f4ede1"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="5">BOS</text>
+
+  <!-- Sello timestamp amarillo abajo izquierda -->
+  <rect x="34" y="444" width="194" height="40" rx="5" fill="#ffd84d"/>
+  <text x="131" y="473"
+        font-family="'JetBrains Mono', 'Courier New', monospace"
+        font-size="22"
+        fill="#1a1815"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="4">OCT '26</text>
+</svg>

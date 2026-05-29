@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Versión MASKABLE para Android adaptive icons.
+       El contenido importante vive dentro del 80% central (círculo seguro).
+       El fondo se extiende a los bordes para que Android pueda recortar
+       cualquier forma sin perder contenido. -->
+
+  <!-- Fondo tinta a borde completo (sin radius, Android añade el suyo) -->
+  <rect width="512" height="512" fill="#1a1815"/>
+
+  <!-- Banda diagonal naranja — más compacta para safe zone -->
+  <path d="M51 308 L461 102 L461 256 L51 461 Z" fill="#ff4d2e"/>
+
+  <!-- NYC — centrado y dentro del safe zone -->
+  <text x="256" y="240"
+        font-family="'Bebas Neue', 'Arial Narrow', sans-serif"
+        font-size="86"
+        fill="#f4ede1"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="4">NYC</text>
+
+  <!-- BOS -->
+  <text x="256" y="380"
+        font-family="'Bebas Neue', 'Arial Narrow', sans-serif"
+        font-size="86"
+        fill="#f4ede1"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="4">BOS</text>
+
+  <!-- Sello timestamp — más interior -->
+  <rect x="102" y="410" width="160" height="34" rx="4" fill="#ffd84d"/>
+  <text x="182" y="434"
+        font-family="'JetBrains Mono', monospace"
+        font-size="18"
+        fill="#1a1815"
+        text-anchor="middle"
+        font-weight="700"
+        letter-spacing="3">OCT '26</text>
+</svg>
