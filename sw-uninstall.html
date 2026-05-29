@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Reset · Travel Planner</title>
+  <style>
+    :root {
+      --paper: #f4ede1; --ink: #1a1815; --accent: #ff4d2e;
+      --yellow: #ffd84d; --muted: #8a8275; --line: #e0d7c8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: var(--paper); color: var(--ink);
+      min-height: 100vh; display: flex; align-items: center;
+      justify-content: center; padding: 24px; line-height: 1.5;
+    }
+    .card {
+      width: 100%; max-width: 460px; background: var(--paper);
+      border: 1px solid var(--ink); padding: 40px 32px;
+      box-shadow: 8px 8px 0 var(--ink);
+    }
+    .kicker {
+      font-family: 'Courier New', monospace; font-size: 11px;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 12px; font-weight: bold;
+    }
+    h1 {
+      font-family: 'Arial Narrow', 'Helvetica Neue', sans-serif;
+      font-size: 38px; line-height: 1.05; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 20px; font-weight: 800;
+    }
+    p { font-size: 15px; margin-bottom: 16px; color: var(--ink); }
+    .muted { color: var(--muted); font-size: 13px; }
+    .status {
+      font-family: 'Courier New', monospace; font-size: 13px;
+      padding: 16px; background: var(--ink); color: var(--paper);
+      margin: 24px 0; min-height: 54px; white-space: pre-line;
+      border-radius: 2px;
+    }
+    .status b { color: var(--yellow); }
+    .status .ok { color: #7ee787; }
+    .status .err { color: #ff7b72; }
+    button {
+      font-family: 'Courier New', monospace; font-size: 13px;
+      letter-spacing: 2px; text-transform: uppercase; font-weight: bold;
+      padding: 16px 24px; width: 100%; cursor: pointer;
+      border: 1px solid var(--ink); transition: transform 0.1s, background 0.15s;
+      margin-top: 8px;
+    }
+    button:active { transform: translate(2px, 2px); }
+    .btn-primary { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+    .btn-primary:hover { background: #e63e20; }
+    .btn-secondary { background: transparent; color: var(--ink); }
+    .btn-secondary:hover { background: var(--line); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .divider { height: 1px; background: var(--line); margin: 24px 0; }
+    .footer {
+      font-family: 'Courier New', monospace; font-size: 10px;
+      letter-spacing: 1px; color: var(--muted); text-align: center;
+      margin-top: 24px; text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p class="kicker">★ Mantenimiento ★</p>
+    <h1>Reiniciar la app</h1>
+    <p>Esta página borra el almacenamiento en caché de Travel Planner y desinstala el service worker.</p>
+    <p class="muted">Úsala solo si la app se quedó "trabada" en una versión vieja o no carga bien. Tus datos en el Google Sheet <b>no se tocan</b> &mdash; esto solo limpia lo que el navegador guardó localmente.</p>
+    <div class="status" id="status" role="status" aria-live="polite">Listo para limpiar. Toca el botón de abajo.</div>
+    <button class="btn-primary" id="reset-btn" type="button">Limpiar y reiniciar</button>
+    <button class="btn-secondary" id="back-btn" type="button">Volver a la app</button>
+    <div class="divider"></div>
+    <p class="muted" style="margin-bottom: 0;">Después de limpiar, la app se volverá a descargar fresca la próxima vez que la abras con internet.</p>
+    <p class="footer">Travel Planner &middot; NYC + BOS &middot; Oct 2026</p>
+  </div>
+  <script>
+    (function () {
+      'use strict';
+      var statusEl = document.getElementById('status');
+      var resetBtn = document.getElementById('reset-btn');
+      var backBtn = document.getElementById('back-btn');
+      function log(msg, cls) {
+        statusEl.innerHTML = cls ? '<span class="' + cls + '">' + msg + '</span>' : msg;
+      }
+      function append(msg, cls) {
+        var line = cls ? '<span class="' + cls + '">' + msg + '</span>' : msg;
+        statusEl.innerHTML += '\n' + line;
+      }
+      backBtn.addEventListener('click', function () { window.location.href = './'; });
+      resetBtn.addEventListener('click', async function () {
+        resetBtn.disabled = true;
+        backBtn.disabled = true;
+        log('Iniciando limpieza...', '');
+        var hadErrors = false;
+        try {
+          if ('serviceWorker' in navigator) {
+            var regs = await navigator.serviceWorker.getRegistrations();
+            if (regs.length === 0) {
+              append('\u2022 No hab\u00eda service workers registrados.');
+            } else {
+              for (var i = 0; i < regs.length; i++) { await regs[i].unregister(); }
+              append('\u2022 Service workers desinstalados: ' + regs.length, 'ok');
+            }
+          } else {
+            append('\u2022 Este navegador no usa service workers.');
+          }
+        } catch (err) {
+          hadErrors = true;
+          append('\u2022 Error desinstalando SW: ' + err.message, 'err');
+        }
+        try {
+          if ('caches' in window) {
+            var keys = await caches.keys();
+            if (keys.length === 0) {
+              append('\u2022 No hab\u00eda caches que borrar.');
+            } else {
+              for (var j = 0; j < keys.length; j++) { await caches.delete(keys[j]); }
+              append('\u2022 Caches borrados: ' + keys.length, 'ok');
+            }
+          }
+        } catch (err) {
+          hadErrors = true;
+          append('\u2022 Error borrando caches: ' + err.message, 'err');
+        }
+        if (hadErrors) {
+          append('\nTerminado con algunos errores. Puedes intentar de nuevo.', 'err');
+          resetBtn.disabled = false;
+          resetBtn.textContent = 'Intentar de nuevo';
+        } else {
+          append('\n\u2713 Limpieza completa.', 'ok');
+          append('Redirigiendo a la app en 3 segundos...');
+          backBtn.disabled = false;
+          backBtn.textContent = 'Ir ahora';
+          setTimeout(function () { window.location.href = './'; }, 3000);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
