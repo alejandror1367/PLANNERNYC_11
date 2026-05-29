@@ -52,8 +52,8 @@ export const TRAVELER_LIST = [TRAVELERS.ale, TRAVELERS.ana];
 export const TRIP = {
   title: 'NYC + BOS',
   subtitle: 'Alejo × Ana · Two best friends · LGBT-friendly',
-  startDate: '2026-10-03T18:17:00-05:00',
-  endDate:   '2026-10-15T12:51:00-05:00',
+  startDate: '2026-05-01T10:00:00-05:00',
+  endDate:   '2026-12-01T10:00:00-05:00',
   cities: ['NYC', 'BOS'],
   defaultExchangeRate: 3667,
 };
