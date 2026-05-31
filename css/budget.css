@@ -759,6 +759,33 @@
   color: #5a5348;
 }
 
+/* Modo oscuro: las tarjetas debt/even NO deben quedarse claras (parche
+   brillante de noche). Fondo tinta cálida tintado con el acento + texto
+   claro de nuevo. El borde de color (acento/success) se mantiene. */
+[data-theme="dark"] .settlement-card--debt {
+  background: linear-gradient(135deg, #2e211c 0%, #3a231b 100%);
+}
+
+[data-theme="dark"] .settlement-card--even {
+  background: linear-gradient(135deg, #1b2a20 0%, #213429 100%);
+}
+
+[data-theme="dark"] .settlement-card--debt .settlement-card__title,
+[data-theme="dark"] .settlement-card--even .settlement-card__title,
+[data-theme="dark"] .settlement-card--debt .settlement-card__big,
+[data-theme="dark"] .settlement-card--even .settlement-card__big {
+  color: var(--text);
+}
+
+[data-theme="dark"] .settlement-card--debt .settlement-card__arrow,
+[data-theme="dark"] .settlement-card--even .settlement-card__arrow,
+[data-theme="dark"] .settlement-card--debt .settlement-card__sub,
+[data-theme="dark"] .settlement-card--even .settlement-card__sub,
+[data-theme="dark"] .settlement-card--debt .settlement-card__hint,
+[data-theme="dark"] .settlement-card--even .settlement-card__hint {
+  color: var(--text-muted);
+}
+
 .settlement-card__avatars {
   display: flex;
   gap: var(--space-2);
