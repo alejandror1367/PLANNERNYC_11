@@ -14,7 +14,7 @@
 //   Convención: 'tpYYYYMMDD-HHMMSS' (timestamp del build).
 // ============================================================
 
-const CACHE_VERSION = 'tp20260531-153000';
+const CACHE_VERSION = 'tp20260531-161500';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 const DATA_CACHE    = `tp-data-${CACHE_VERSION}`;

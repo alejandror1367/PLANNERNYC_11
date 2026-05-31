@@ -27,6 +27,9 @@ let unsubscribe = null;
 let forecast = null;
 let refreshInterval = null;
 
+// Umbral para considerar un "hueco" grande entre dos actividades (minutos).
+const GAP_MINUTES = 120; // 2 horas
+
 // ---------- helpers de tiempo ----------
 function timeToMinutes(timeStr) {
   if (!timeStr) return null;
@@ -38,6 +41,15 @@ function timeToMinutes(timeStr) {
   if (/p\.?m\.?/i.test(timeStr) && h < 12) h += 12;
   if (/a\.?m\.?/i.test(timeStr) && h === 12) h = 0;
   return h * 60 + min;
+}
+
+// Formatea una duración en minutos como "3 h", "45 min" o "2 h 30 min".
+function fmtGap(mins) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h === 0) return `${m} min`;
+  if (m === 0) return `${h} h`;
+  return `${h} h ${m} min`;
 }
 
 /**
@@ -200,6 +212,72 @@ function renderTimeline(cls) {
   `;
 }
 
+// ---------- widget "Ritmo del día": huecos y choques ----------
+/**
+ * Analiza las actividades CON hora del día y detecta:
+ *   - clashes: dos actividades a la misma hora exacta (choque de plan).
+ *   - gaps:    espacios >= GAP_MINUTES entre actividades consecutivas.
+ * Solo usa datos existentes (la hora de inicio); cero backend.
+ */
+function detectPacing(day) {
+  const timed = (day.activities || [])
+    .filter((a) => a && a.name)
+    .map((a) => ({ act: a, mins: timeToMinutes(a.time) }))
+    .filter((x) => x.mins !== null)
+    .sort((a, b) => a.mins - b.mins);
+
+  const gaps = [];
+  const clashes = [];
+  for (let i = 0; i < timed.length - 1; i++) {
+    const cur = timed[i];
+    const nxt = timed[i + 1];
+    const diff = nxt.mins - cur.mins;
+    if (diff === 0) {
+      clashes.push({ a: cur.act, b: nxt.act });
+    } else if (diff >= GAP_MINUTES) {
+      gaps.push({ a: cur.act, b: nxt.act, mins: diff });
+    }
+  }
+  return { gaps, clashes };
+}
+
+function renderPacing(day) {
+  const { gaps, clashes } = detectPacing(day);
+  // Solo avisamos si hay algo que decir; si el plan está equilibrado,
+  // no añadimos ruido al dashboard.
+  if (gaps.length === 0 && clashes.length === 0) return '';
+
+  const clashItems = clashes.map((c) => `
+    <li class="today-pace__item today-pace__item--clash">
+      <span class="today-pace__icon" aria-hidden="true">⚠️</span>
+      <span class="today-pace__text">
+        <span class="today-pace__head">Choque de hora</span>
+        <span class="today-pace__detail">${escapeHtml(c.a.name)} y ${escapeHtml(c.b.name)} están a las ${escapeHtml(c.a.time)}</span>
+      </span>
+    </li>
+  `).join('');
+
+  const gapItems = gaps.map((g) => `
+    <li class="today-pace__item today-pace__item--gap">
+      <span class="today-pace__icon" aria-hidden="true">⏳</span>
+      <span class="today-pace__text">
+        <span class="today-pace__head">${fmtGap(g.mins)} sin plan</span>
+        <span class="today-pace__detail">entre ${escapeHtml(g.a.name)} (${escapeHtml(g.a.time)}) y ${escapeHtml(g.b.name)} (${escapeHtml(g.b.time)})</span>
+      </span>
+    </li>
+  `).join('');
+
+  return `
+    <p class="today-kicker">★ Ritmo del día ★</p>
+    <article class="today-card today-pace">
+      <ul class="today-pace__list">
+        ${clashItems}
+        ${gapItems}
+      </ul>
+    </article>
+  `;
+}
+
 // ---------- gasto hoy + clima ----------
 function renderBudgetWeather(day, tp) {
   const state = store.getState();
@@ -300,6 +378,7 @@ function render() {
     ${renderHeader(today, tp)}
     ${renderNext(cls, today)}
     ${renderTimeline(cls)}
+    ${renderPacing(today)}
     ${renderBudgetWeather(today, tp)}
     ${renderQuickActions()}
   `);
