@@ -1,0 +1,184 @@
+/* ============================================================
+   TOKENS · Design system del Travel Planner
+   Única fuente de verdad para colores, tipografía y espaciado.
+   ============================================================ */
+
+:root {
+
+  /* ====== PALETA BASE (identidad del proyecto) ====== */
+  --color-paper:        #f4ede1;   /* fondo crema, "papel" */
+  --color-ink:          #1a1815;   /* negro suave, texto principal */
+  --color-accent:       #ff4d2e;   /* naranja vibrante, CTAs y énfasis */
+  --color-accent-2:     #ffd84d;   /* amarillo, destacados y números */
+  --color-green:        #4a7c4e;   /* verde para tags positivos / eco */
+  --color-blue:         #2d4a7c;   /* azul para tags fríos / Boston */
+  --color-muted:        #8a8275;   /* texto secundario */
+  --color-line:         #d9d0bf;   /* bordes sutiles */
+  --color-white:        #ffffff;
+  --color-paper-alt:    #ffe89c;   /* amarillo claro para gradientes de hack */
+
+  /* ====== TOKENS SEMÁNTICOS (los que usan los componentes) ====== */
+  --bg:                 var(--color-paper);
+  --surface:            var(--color-white);
+  --surface-dark:       var(--color-ink);
+  --surface-accent:     var(--color-accent);
+  --surface-paper:      var(--color-paper);
+
+  --text:               var(--color-ink);
+  --text-on-dark:       var(--color-paper);
+  --text-on-accent:     var(--color-white);
+  --text-muted:         var(--color-muted);
+  --text-accent:        var(--color-accent);
+  --text-highlight:     var(--color-accent-2);
+
+  --border:             var(--color-line);
+  --border-strong:      var(--color-ink);
+
+  /* ====== ESTADOS ====== */
+  --success:            var(--color-green);
+  --warning:            #d97706;
+  --danger:             #dc2626;
+  --info:               var(--color-blue);
+
+  /* Paneles SIEMPRE oscuros (boarding pass, hero, climate, etc.)
+     No se invierten en modo oscuro: siempre tinta + texto claro */
+  --panel-dark:         #1a1815;
+  --panel-dark-soft:    #26231f;
+  --panel-dark-text:    #f0e9dc;
+
+  /* ====== TIPOGRAFÍA ====== */
+  --font-display:       'Bebas Neue', system-ui, sans-serif;
+  --font-body:          'Fraunces', Georgia, serif;
+  --font-mono:          'JetBrains Mono', 'Courier New', monospace;
+
+  /* Escala fluida con clamp(min, preferred, max) */
+  --text-xs:            11px;
+  --text-sm:            13px;
+  --text-base:          15px;
+  --text-lg:            17px;
+  --text-xl:            20px;
+  --text-2xl:           clamp(22px, 4vw, 28px);
+  --text-3xl:           clamp(28px, 5vw, 36px);
+  --text-4xl:           clamp(32px, 6vw, 48px);
+  --text-hero:          clamp(38px, 9vw, 72px);
+
+  /* Pesos */
+  --weight-normal:      400;
+  --weight-semibold:    600;
+  --weight-bold:        700;
+  --weight-extrabold:   800;
+
+  /* Line heights */
+  --leading-tight:      1;
+  --leading-snug:       1.2;
+  --leading-normal:     1.5;
+  --leading-relaxed:    1.7;
+
+  /* Letter spacing */
+  --tracking-tight:     -0.02em;
+  --tracking-normal:    0;
+  --tracking-wide:      0.1em;
+  --tracking-wider:     0.15em;
+  --tracking-widest:    0.3em;
+
+  /* ====== ESPACIADO (múltiplos de 4) ====== */
+  --space-1:            4px;
+  --space-2:            8px;
+  --space-3:            12px;
+  --space-4:            16px;
+  --space-5:            20px;
+  --space-6:            24px;
+  --space-8:            32px;
+  --space-10:           40px;
+  --space-12:           48px;
+  --space-16:           64px;
+  --space-20:           80px;
+
+  /* ====== BORDES Y RADIOS ====== */
+  /* Rediseño: radios suaves/redondeados en toda la app */
+  --radius-none:        0;
+  --radius-xs:          12px;      /* antes 2px — ahora suave (cards, botones) */
+  --radius-sm:          14px;
+  --radius-md:          16px;
+  --radius-pill:        9999px;
+
+  --border-width:       1px;
+  --border-width-thick: 3px;
+
+  /* ====== SOMBRAS SUAVES (rediseño editorial premium) ====== */
+  --shadow-sm:          0 3px 10px rgba(26, 24, 21, 0.06);
+  --shadow-md:          0 5px 16px rgba(26, 24, 21, 0.08);
+  --shadow-lg:          0 8px 24px rgba(26, 24, 21, 0.14);
+  --shadow-accent:      0 5px 16px rgba(255, 77, 46, 0.18);
+  --shadow-accent-lg:   0 8px 24px rgba(255, 77, 46, 0.22);
+
+  /* ====== TRANSICIONES ====== */
+  --transition-fast:    0.15s ease;
+  --transition-base:    0.25s ease;
+  --transition-slow:    0.4s ease;
+
+  /* Easings expresivos (Fase 8.1) */
+  --ease-out:           cubic-bezier(0.16, 1, 0.3, 1);    /* salida suave */
+  --ease-spring:        cubic-bezier(0.34, 1.56, 0.64, 1); /* leve rebote */
+  --ease-in-out:        cubic-bezier(0.65, 0, 0.35, 1);
+  --motion-stagger:     60ms;  /* retraso entre cards en cascada */
+
+  /* ====== Z-INDEX (escalera ordenada) ====== */
+  --z-base:             0;
+  --z-grain:            1;
+  --z-content:          2;
+  --z-sticky:           50;
+  --z-sync-status:      900;
+  --z-toast:            1000;
+  --z-modal:            9999;
+
+  /* ====== LAYOUT ====== */
+  --wrap-max:           1200px;
+  --wrap-padding-x:     16px;
+  --wrap-padding-y:     20px;
+  --header-border:      3px;
+
+  /* ====== TOUCH TARGETS ====== */
+  --touch-min:          44px;     /* mínimo accesible (Apple/Google) */
+
+  /* ====== BREAKPOINTS (referencia para JS) ====== */
+  --bp-sm:              600px;
+  --bp-md:              768px;
+  --bp-lg:              1024px;
+  --bp-xl:              1280px;
+}
+
+/* ============================================================
+   MODO OSCURO
+   Solo redefine tokens SEMÁNTICOS. Los componentes no cambian:
+   leen estas variables y se adaptan solos.
+   Fondo: tinta cálida (no negro puro) para mantener el carácter
+   editorial. Acentos naranja/amarillo se conservan.
+   ============================================================ */
+[data-theme="dark"] {
+  --color-paper:        #1c1a17;   /* fondo: tinta cálida profunda */
+  --color-ink:          #f0e9dc;   /* "texto tinta" ahora es claro */
+
+  --bg:                 #161412;   /* fondo base un poco más oscuro */
+  --surface:            #26231f;   /* cards: tinta cálida elevada */
+  --surface-dark:       #0f0e0c;   /* cards oscuras: casi negro */
+  --surface-accent:     var(--color-accent);
+  --surface-paper:      #2e2a25;
+
+  --text:               #f0e9dc;   /* texto principal claro */
+  --text-on-dark:       #f0e9dc;
+  --text-on-accent:     #1a1815;   /* sobre naranja: tinta */
+  --text-muted:         #a39b8c;   /* secundario, legible en oscuro */
+  --text-accent:        var(--color-accent);
+  --text-highlight:     var(--color-accent-2);
+
+  --border:             #3a352e;   /* bordes sutiles en oscuro */
+  --border-strong:      #f0e9dc;
+
+  /* Sombras: en oscuro casi no se ven, así que sutiles y frías */
+  --shadow-sm:          0 3px 10px rgba(0, 0, 0, 0.35);
+  --shadow-md:          0 5px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg:          0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-accent:      0 5px 16px rgba(255, 77, 46, 0.3);
+  --shadow-accent-lg:   0 8px 24px rgba(255, 77, 46, 0.35);
+}
